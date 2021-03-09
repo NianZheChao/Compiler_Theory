@@ -1,11 +1,12 @@
 # from tkinter import *
 import tkinter as tk
 from tkinter.filedialog import *
-from PIL import Image
+import os
 
 window = tk.Tk()
 window.title('Compiler Theory Demo')
 window.geometry('800x600')
+window.resizable(width=False, height=False)
 
 l = tk.Label(window, bg='gray', width=25, height=2, text='Demo V0.2')
 l.pack()
@@ -25,29 +26,55 @@ def openFile():
         text1.insert(1.0, f.read())
 
 
+def copy():
+    s = text1.get('1.0', END)
+    text2.insert(1.0, s)
+
+
+def cut():
+    s = text1.get('1.0', END)
+    text3.insert(1.0, s)
+    text1.delete('1.0', END)
+
+
+def save():
+    fh = open('temp.log', 'w')
+    s = text1.get('1.0', END)
+    fh.write(s)
+    fh.close()
+
+
+def help():
+    os.system('D:\\pythonProject\\help.CHM')
+
+
 menubar = tk.Menu(window)
+
 fileMenu = tk.Menu(menubar, tearoff=0)
 menubar.add_cascade(label='文件', menu=fileMenu)
 fileMenu.add_command(label='新建', command=do_job)
 fileMenu.add_command(label='打开', command=openFile)
-fileMenu.add_command(label='保存', command=do_job)
+fileMenu.add_command(label='保存', command=save)
 fileMenu.add_separator()
 fileMenu.add_command(label='退出', command=window.quit)
 
 editMenu = tk.Menu(menubar, tearoff=0)
 menubar.add_cascade(label='编辑', menu=editMenu)
-editMenu.add_command(label='剪切', command=do_job)
-editMenu.add_command(label='复制', command=do_job)
+editMenu.add_command(label='剪切', command=cut)
+editMenu.add_command(label='复制', command=copy)
 editMenu.add_command(label='粘贴', command=do_job)
 
-text1 = tk.Text(window, width=55, height=40)
-text1.pack(side='left', padx=1, pady=1)
+aboutMenu = tk.Menu(menubar, tearoff=0)
+menubar.add_command(label='帮助', command=help)
 
-text2 = tk.Text(window, width=55, height=40)
-text2.pack(side='right', padx=1, pady=1)
+text1 = tk.Text(window, width=55, height=44)
+text1.pack(side=tk.LEFT, padx=1, pady=1)
 
-# text3 = tk.Text(window, width=55, height=20)
-# text3.pack(side='right', padx=1, pady=1)
+text2 = tk.Text(window, width=55, height=21)
+text2.pack(side='top', padx=1, pady=1)
+
+text3 = tk.Text(window, width=55, height=21)
+text3.pack(side='bottom', padx=1, pady=1)
 # text.pack(fill=tk.X, side=tk.TOP)
 # 填充用法
 
