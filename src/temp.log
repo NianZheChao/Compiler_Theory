@@ -1,0 +1,22 @@
+// #include <stdio.h>
+// #include <stdlib.h>
+// #include <math.h>
+// #include <time.h>
+// #include <cstring>
+
+
+void a(){
+    int b = 7;
+}
+
+void c(){
+    printf("%d",a().b);
+    
+}
+
+int main(){
+    //c();
+    printf("hello");
+    return 0;
+}
+

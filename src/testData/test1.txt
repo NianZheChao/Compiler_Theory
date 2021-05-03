@@ -1,0 +1,8 @@
+void main()
+{
+    int a;
+    int result ;
+    a=2;
+    result =a+10*a ;
+}
+

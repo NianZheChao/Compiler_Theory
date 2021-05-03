@@ -1,0 +1,6 @@
+void main()
+{
+  int a;
+  a=0;
+  for(int j=0;j<10-1-i;j++){
+    a+=a;
