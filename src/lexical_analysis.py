@@ -7,7 +7,7 @@ from tkinter import filedialog
 # 读取种别码文件
 def get_seed_code():
     seed = defaultdict(int)
-    with open('test.csv', 'r', encoding='UTF-8') as f:
+    with open('D:\\2020\\GitHub\\Compiler_Theory\\src\\test.csv', 'r', encoding='UTF-8') as f:
         k = csv.reader(f)
         for i in k:
             seed[str(i[0])] = i[1]
@@ -22,9 +22,11 @@ def get_source_file(filename):
             if i != '\n':
                 src.append(i)
     return src
-
+# ['void main()\n', '{\n', '    int a;\n', '    int result ;\n', '    a=2;\n', '    result =a+10*a ;\n', '}\n', '//comment test']
 
 # 去掉注释
+
+
 def remove_note(src):
     for i in src:
         for j in range(len(i)):
@@ -33,11 +35,9 @@ def remove_note(src):
                     src[src.index(i)] = i[:j]
                     break
             break
-
     for i in src:
         if not i:
             del src[src.index(i)]
-
     return src
 
 
@@ -54,7 +54,8 @@ def get_identifier(token_word, token_num, line, index, txt2):
         else:
             if line[index] == '_':
                 error += 1
-                txt2.insert('end', '第'+str(index)+'行存在错误：'+string+line[index]+'\n')
+                txt2.insert('end', '第'+str(index) +
+                            '行存在错误：'+string+line[index]+'\n')
             break
     token_word.append(string)
     token_num.append(700)
@@ -105,7 +106,8 @@ def get_number(token_word, token_num, line, index, txt2):
                 index += 1
                 if line[index].isdigit():
                     error += 1
-                    txt2.insert('end', '第' + str(index) + '行存在错误：' + string + line[index] + '\n')
+                    txt2.insert('end', '第' + str(index) +
+                                '行存在错误：' + string + line[index] + '\n')
                     break
                 if line[index] in ['x', 'X']:
                     string += str(line[index])
@@ -113,7 +115,8 @@ def get_number(token_word, token_num, line, index, txt2):
                     while index != len(line):
                         if line[index] in ['x', 'X']:
                             error += 1
-                            txt2.insert('end', '第' + str(index) + '行存在错误：' + string + line[index] + '\n')
+                            txt2.insert('end', '第' + str(index) +
+                                        '行存在错误：' + string + line[index] + '\n')
                             break
                         if line[index].isalpha() or line[index].isdigit():
                             string += str(line[index])
@@ -134,7 +137,8 @@ def get_number(token_word, token_num, line, index, txt2):
         if index != len(line):
             if line[index].isalpha():
                 error += 1
-                txt2.insert('end', '第' + str(index) + '行存在错误：' + string + line[index] + '\n')
+                txt2.insert('end', '第' + str(index) + '行存在错误：' +
+                            string + line[index] + '\n')
                 break
             if line[index].isdigit() and line[index] != 0:
                 string += str(line[index])
@@ -203,7 +207,8 @@ def get_other(token, token_word, token_num, seed, line, index, txt2, i, temp_wor
     while index != len(line):
         if not line[index].isalpha() and not line[index].isdigit():
             if line[index] in ['+', '-', '*', '/', '>', '<', '=', '&']:
-                index, error_1 = get_one(token_word, token_num, seed, line, index, txt2)
+                index, error_1 = get_one(
+                    token_word, token_num, seed, line, index, txt2)
                 error += error_1
                 token[token_word[-1]].append([i, index - len(token_word[-1])])
                 temp_word_row.append(token_word[-1])
@@ -212,7 +217,8 @@ def get_other(token, token_word, token_num, seed, line, index, txt2, i, temp_wor
                     break
 
             if line[index] in ['%', '!', ':', '?']:
-                index, error_1 = get_two(token_word, token_num, seed, line, index, txt2)
+                index, error_1 = get_two(
+                    token_word, token_num, seed, line, index, txt2)
                 error += error_1
                 token[token_word[-1]].append([i, index - len(token_word[-1])])
                 temp_word_row.append(token_word[-1])
@@ -254,6 +260,7 @@ def get_token(seed, src, txt2):
         line = i.strip('\n')
         # 根据空格分割字符串
         line = line.split()
+
         for string in line:
             if string in seed:
                 token[string].append([src.index(i), line.index(string)])
@@ -270,9 +277,11 @@ def get_token(seed, src, txt2):
                 while index != line_length:
                     # 是否为下划线
                     if string[index] == '_':
-                        index, error_1 = get_identifier(token_word, token_num, string, index, txt2)
+                        index, error_1 = get_identifier(
+                            token_word, token_num, string, index, txt2)
                         error += error_1
-                        token[token_word[-1]].append([src.index(i), line.index(string)])
+                        token[token_word[-1]
+                              ].append([src.index(i), line.index(string)])
                         temp_word_row.append(token_word[-1])
                         temp_num_row.append(token_num[-1])
                         if index == line_length:
@@ -281,9 +290,11 @@ def get_token(seed, src, txt2):
                             continue
                     # 是否为字母
                     if string[index].isalpha():
-                        index, error_1 = get_identifier_or_alpha(token_word, token_num, seed, string, index, txt2)
+                        index, error_1 = get_identifier_or_alpha(
+                            token_word, token_num, seed, string, index, txt2)
                         error += error_1
-                        token[token_word[-1]].append([src.index(i), line.index(string)])
+                        token[token_word[-1]
+                              ].append([src.index(i), line.index(string)])
                         temp_word_row.append(token_word[-1])
                         temp_num_row.append(token_num[-1])
                         if index == line_length:
@@ -292,9 +303,11 @@ def get_token(seed, src, txt2):
                             continue
                     # 是否为数字
                     if string[index].isdigit():
-                        index, error_1 = get_number(token_word, token_num, string, index, txt2)
+                        index, error_1 = get_number(
+                            token_word, token_num, string, index, txt2)
                         error += error_1
-                        token[token_word[-1]].append([src.index(i), line.index(string)])
+                        token[token_word[-1]
+                              ].append([src.index(i), line.index(string)])
                         temp_word_row.append(token_word[-1])
                         temp_num_row.append(token_num[-1])
                         if index == line_length:
@@ -303,7 +316,8 @@ def get_token(seed, src, txt2):
                             continue
                     # 是否为其他字符
                     else:
-                        index, error_1 = get_other(token, token_word, token_num, seed, string, index, txt2, src.index(i), temp_word_row, temp_num_row)
+                        index, error_1 = get_other(token, token_word, token_num, seed, string, index, txt2, src.index(
+                            i), temp_word_row, temp_num_row)
                         error += error_1
                         if index == line_length:
                             break
@@ -318,7 +332,8 @@ def get_token(seed, src, txt2):
 # 读取文件
 def get_txt(txt):
     txt.delete(0.0, 'end')
-    filename = filedialog.askopenfilename(initialdir=r'C:\Users\yu\PycharmProjects\Compile')
+    filename = filedialog.askopenfilename(
+        initialdir=r'C:\Users\yu\PycharmProjects\Compile')
     with open(filename) as file:
         text = file.read()
         txt.insert('end', text)
@@ -332,8 +347,8 @@ def wri_txt(txt1, k):
     token_num = k[2]
     for i in range(len(token_word)):
 
-        txt1.insert('end', (str(token[token_word[i]][0])+'\t\t'+str(token_word[i])+'\t'+str(token_num[i])))
+        txt1.insert('end', (str(token[token_word[i]][0]) +
+                            '\t\t'+str(token_word[i])+'\t'+str(token_num[i])))
         txt1.insert('end', '\n')
         del token[token_word[i]][0]
     return [k[3], k[4]]
-

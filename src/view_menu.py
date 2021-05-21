@@ -36,7 +36,8 @@ def menu():
         if item == "退出":
             menus1.add_command(label=item, command=view.quit)  # #退出窗体程序
         if item == "打开":
-            menus1.add_command(label=item, command=lambda: get_source_file(get_txt(txt)))
+            menus1.add_command(
+                label=item, command=lambda: get_source_file(get_txt(txt)))
         else:
             menus1.add_command(label=item, command=txt.delete(0.0, 'end'))
 
@@ -47,9 +48,10 @@ def menu():
         num = k[1]
 
     menus.add_cascade(label='文件', menu=menus1)
-    menus.add_cascade(label='词法分析', command=lambda: get_value(wri_txt(txt1, get_token(seed, remove_note(
-        txt.get('0.0', 'end').split("\n")), txt2))))
-    menus.add_cascade(label='语法分析', command=lambda: get_data(word, num, txt1, txt2))
+    menus.add_cascade(label='词法分析', command=lambda: get_value(wri_txt(
+        txt1, get_token(seed, remove_note(txt.get('0.0', 'end').split("\n")), txt2))))
+    menus.add_cascade(
+        label='语法分析', command=lambda: get_data(word, num, txt1, txt2))
     menus.add_cascade(label='中间代码')
     menus.add_cascade(label='目标代码生成')
     menus.add_cascade(label='查看')
